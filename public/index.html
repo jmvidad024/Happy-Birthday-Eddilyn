@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAPPY BIRTHDAY ♡ Press Start</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FFD1E8;
+    --bg-deep: #FFC1E0;
+    --primary: #FF6FB0;
+    --primary-dark: #C44B93;
+    --ink: #6B2E58;
+    --card: #FFF6FA;
+    --mint: #B8E8D4;
+    --mint-dark: #6FBE9C;
+    --yellow: #FFE49A;
+    --pixel: 4px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.35) 0px, rgba(255,255,255,0.35) 2px, transparent 2px, transparent 4px);
+    color: var(--ink);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .pixel-font{
+    font-family: 'Press Start 2P', monospace;
+    line-height: 1.6;
+  }
+
+  .pixel-border{
+    border: var(--pixel) solid var(--ink);
+    box-shadow:
+      4px 0 0 0 var(--ink),
+      0 4px 0 0 var(--ink),
+      4px 4px 0 0 var(--ink),
+      8px 8px 0 0 rgba(107,46,88,0.25);
+    border-radius: 0;
+  }
+
+  .scanlines{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.05) 0px,
+      rgba(0,0,0,0.05) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    z-index: 9999;
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+  }
+
+  nav{
+    position: sticky;
+    top:0;
+    z-index: 500;
+    display:flex;
+    justify-content:center;
+    gap: 10px;
+    padding: 14px 10px;
+    background: var(--bg);
+    border-bottom: var(--pixel) solid var(--ink);
+    flex-wrap: wrap;
+  }
+  nav button{
+    font-family:'Press Start 2P', monospace;
+    font-size: 9px;
+    background: var(--card);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: transform .05s linear;
+  }
+  nav button:hover{ background: var(--mint); }
+  nav button:active{
+    transform: translate(3px,3px);
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  .hero{
+    min-height: 92vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 40px 16px 80px;
+    position: relative;
+  }
+
+  .console{
+    width: min(640px, 92vw);
+    background: var(--card);
+    padding: 28px 18px 34px;
+    position: relative;
+  }
+
+  .console-dots{
+    position:absolute;
+    top:10px; right:14px;
+    display:flex; gap:6px;
+  }
+  .console-dots span{
+    width:8px;height:8px;background:var(--primary);display:inline-block;
+  }
+  .console-dots span:nth-child(2){ background: var(--mint-dark); }
+  .console-dots span:nth-child(3){ background: var(--yellow); }
+
+  .cake-sprite{
+    width: 160px;
+    height: 160px;
+    margin: 6px auto 18px;
+    image-rendering: pixelated;
+  }
+
+  .hero h1{
+    font-size: clamp(18px, 4vw, 30px);
+    color: var(--primary-dark);
+    text-shadow: 3px 3px 0 var(--card), 4px 4px 0 var(--ink);
+    margin: 0 0 14px;
+    letter-spacing: 1px;
+  }
+
+  .hero p.sub{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size: 16px;
+    margin: 0 0 26px;
+    color: var(--ink);
+  }
+
+  .press-start{
+    font-family:'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--primary-dark);
+    animation: blink 1s steps(1) infinite;
+    cursor:pointer;
+    background:none;
+    border:none;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .level-tag{
+    position:absolute;
+    top:-14px; left:-14px;
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    font-family:'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 6px 8px;
+    transform: rotate(-6deg);
+  }
+
+  section{
+    padding: 70px 16px;
+    position: relative;
+  }
+  .section-inner{
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .section-title{
+    font-family:'Press Start 2P', monospace;
+    font-size: clamp(14px,3vw,20px);
+    color: var(--primary-dark);
+    text-align:center;
+    margin: 0 0 8px;
+  }
+  .section-kicker{
+    text-align:center;
+    font-size: 13px;
+    color: var(--ink);
+    opacity:.75;
+    margin: 0 0 40px;
+    font-weight: 700;
+  }
+
+  .corkboard{
+    background: var(--bg-deep);
+    border-top: var(--pixel) dashed var(--ink);
+    border-bottom: var(--pixel) dashed var(--ink);
+  }
+  .polaroid-grid{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 10px;
+  }
+  .polaroid{
+    background:#fff;
+    width: 220px;
+    padding: 10px 10px 34px;
+    border: 3px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--ink);
+    cursor: grab;
+    transition: transform .15s ease;
+    transform: rotate(var(--rot,0deg));
+    position: relative;
+    flex: 0 0 auto;
+  }
+  .polaroid:nth-child(1){ --rot:-4deg; }
+  .polaroid:nth-child(2){ --rot:3deg; }
+  .polaroid:nth-child(3){ --rot:-2deg; }
+  .polaroid:nth-child(4){ --rot:5deg; }
+  .polaroid:nth-child(5){ --rot:-5deg; }
+  .polaroid:nth-child(6){ --rot:2deg; }
+  .polaroid:hover{ transform: rotate(0deg) scale(1.06); z-index:5; }
+  .polaroid .pin{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+    width:14px;height:14px; background: var(--primary);
+    border: 2px solid var(--ink);
+    border-radius:50%;
+  }
+  /* Fixed photo box: every frame is exactly this size no matter what image
+     goes inside it. Swap the placeholder emoji for <img src="..."> and it
+     will automatically fill this same box via object-fit: cover. */
+  .polaroid .frame{
+    width: 200px;
+    height: 200px;
+    background: var(--mint);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 40px;
+    overflow:hidden;
+  }
+  .polaroid .frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position: center;
+    display: block;
+  }
+  .polaroid figcaption{
+    position:absolute; bottom:8px; left:0; right:0;
+    text-align:center;
+    font-family:'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--ink);
+  }
+
+  /* Tablet: slightly smaller cards so 2-3 fit per row without crowding */
+  @media (max-width: 700px){
+    .polaroid{ width: 170px; }
+    .polaroid .frame{ width: 150px; height: 150px; }
+  }
+
+  /* Phone: cards shrink further and gap tightens so two sit comfortably
+     side by side on a narrow screen */
+  @media (max-width: 420px){
+    .polaroid-grid{ gap: 18px; }
+    .polaroid{ width: 140px; padding: 8px 8px 28px; }
+    .polaroid .frame{ width: 124px; height: 124px; font-size: 30px; }
+  }
+
+  .add-photo-tip{
+    text-align:center;
+    margin-top: 30px;
+    font-size: 12px;
+    opacity:.65;
+  }
+
+  .wishes-wrap{
+    background: var(--card);
+  }
+  .dialog-box{
+    background:#fff;
+    border: var(--pixel) solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 20px;
+    margin-bottom: 22px;
+    position: relative;
+  }
+  .dialog-box .tail{
+    position:absolute;
+    bottom:-14px; left:30px;
+    width:0;height:0;
+    border-left:10px solid transparent;
+    border-right:10px solid transparent;
+    border-top:14px solid var(--ink);
+  }
+  .dialog-box .tail::after{
+    content:'';
+    position:absolute;
+    top:-14px; left:-7px;
+    width:0;height:0;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-top:10px solid #fff;
+  }
+  .dialog-name{
+    font-family:'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--primary-dark);
+    margin: 0 0 10px;
+  }
+  .dialog-text{
+    margin:0;
+    font-size: 15px;
+    color: var(--ink);
+    min-height: 1.6em;
+  }
+  .cursor-blink{
+    display:inline-block;
+    width: 8px;
+    background: var(--ink);
+    margin-left:2px;
+    animation: blink .8s steps(1) infinite;
+  }
+
+  .wish-form{
+    margin-top: 36px;
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+    background: var(--mint);
+    border: var(--pixel) solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 22px;
+  }
+  .wish-form label{
+    font-family:'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--ink);
+  }
+  .wish-form input, .wish-form textarea{
+    font-family:'Quicksand', sans-serif;
+    font-weight:600;
+    font-size: 14px;
+    padding: 10px;
+    border: 3px solid var(--ink);
+    background: #fff;
+    resize: vertical;
+    outline: none;
+  }
+  .wish-form input:focus, .wish-form textarea:focus{
+    box-shadow: 0 0 0 3px var(--yellow);
+  }
+  .btn-pixel{
+    align-self:flex-start;
+    font-family:'Press Start 2P', monospace;
+    font-size: 11px;
+    background: var(--primary);
+    color: #fff;
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    padding: 12px 18px;
+    cursor: pointer;
+    transition: transform .05s linear;
+  }
+  .btn-pixel:hover{ background: var(--primary-dark); }
+  .btn-pixel:active{
+    transform: translate(4px,4px);
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  .wish-status{
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    min-height: 1.4em;
+  }
+
+  footer{
+    padding: 50px 16px 90px;
+    text-align:center;
+    position: relative;
+    overflow: hidden;
+  }
+  footer p{
+    font-family:'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--primary-dark);
+  }
+  .walker-track{
+    position: relative;
+    height: 70px;
+    margin-top: 10px;
+  }
+  .walker{
+    position: absolute;
+    bottom: 0;
+    left: -60px;
+    width: 40px;
+    height: 40px;
+    image-rendering: pixelated;
+    animation: walk 9s linear infinite;
+  }
+  @keyframes walk{
+    0%{ left:-60px; transform: scaleX(1); }
+    48%{ transform: scaleX(1); }
+    50%{ left: calc(100% - 20px); transform: scaleX(-1); }
+    98%{ transform: scaleX(-1); }
+    100%{ left:-60px; transform: scaleX(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .press-start, .cursor-blink, .walker{ animation: none !important; }
+  }
+
+  :focus-visible{
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  ::selection{ background: var(--primary); color:#fff; }
+</style>
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<nav>
+  <button onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">📸 GALLERY</button>
+  <button onclick="document.getElementById('wishes').scrollIntoView({behavior:'smooth'})">💌 WISHES</button>
+</nav>
+
+<section class="hero">
+  <div class="console pixel-border">
+    <div class="console-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="level-tag">LVL UP!</div>
+    <svg class="cake-sprite" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" aria-label="pixel birthday cake">
+      <rect x="7" y="0" width="2" height="2" fill="#FFE49A"/>
+      <rect x="7" y="1" width="2" height="1" fill="#FF6FB0"/>
+      <rect x="7" y="2" width="2" height="2" fill="#FFF6FA"/>
+      <rect x="3" y="5" width="10" height="3" fill="#FFD1E8"/>
+      <rect x="3" y="5" width="10" height="1" fill="#FFF6FA"/>
+      <rect x="2" y="7" width="1" height="1" fill="#6B2E58"/>
+      <rect x="13" y="7" width="1" height="1" fill="#6B2E58"/>
+      <rect x="5" y="6" width="1" height="1" fill="#B8E8D4"/>
+      <rect x="9" y="6" width="1" height="1" fill="#FF6FB0"/>
+      <rect x="11" y="6" width="1" height="1" fill="#C44B93"/>
+      <rect x="1" y="9" width="14" height="5" fill="#FF6FB0"/>
+      <rect x="1" y="9" width="14" height="1" fill="#FFC1E0"/>
+      <rect x="0" y="10" width="1" height="3" fill="#6B2E58"/>
+      <rect x="15" y="10" width="1" height="3" fill="#6B2E58"/>
+      <rect x="3" y="11" width="2" height="1" fill="#FFF6FA"/>
+      <rect x="7" y="11" width="2" height="1" fill="#FFF6FA"/>
+      <rect x="11" y="11" width="2" height="1" fill="#FFF6FA"/>
+      <rect x="0" y="14" width="16" height="2" fill="#6B2E58"/>
+      <rect x="1" y="14" width="14" height="1" fill="#C44B93"/>
+    </svg>
+    <h1 class="pixel-font">HAPPY BIRTHDAY TO EDDILYN!</h1>
+    <p class="sub">Another year, another save file ♡</p>
+    <button class="press-start" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">▶ PRESS START</button>
+  </div>
+</section>
+
+<section id="gallery" class="corkboard">
+  <div class="section-inner">
+    <h2 class="section-title pixel-font">★ MEMORY CARD ★</h2>
+    <p class="section-kicker">a few favorite snapshots, pinned up pixel-style</p>
+
+    <div class="polaroid-grid" id="polaroidGrid">
+      <figure class="polaroid"><div class="pin"></div><div class="frame"><img src="/img/Her-Eating-Ramen.jpg" alt="" srcset=""></div><figcaption>EATING TIME</figcaption></figure>
+      <figure class="polaroid"><div class="pin"></div><div class="frame"><img src="/img/Coffee-Date.jpg" alt="" srcset=""></div><figcaption>COFFEE DAY</figcaption></figure>
+      <figure class="polaroid"><div class="pin"></div><div class="frame"><img src="/img/Funny-Picture.jpg" alt=""></div><figcaption>GOOD VIBES</figcaption></figure>
+      <figure class="polaroid"><div class="pin"></div><div class="frame"><img src="/img/Main-Character.jpg" alt=""></div><figcaption>MAIN CHARACTER</figcaption></figure>
+      <figure class="polaroid"><div class="pin"></div><div class="frame"><img src="/img/With-Best-Friend.jpg" alt="Best Friend"></div><figcaption>BEST FRIEND</figcaption></figure>
+      <figure class="polaroid"><div class="pin"></div><div class="frame"><img src="/img/Dunkin-Coffee-Date.jpg" alt="" srcset=""></div><figcaption>SWEET TREATS</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="wishes" class="wishes-wrap">
+  <div class="section-inner">
+    <h2 class="section-title pixel-font">♡ WISH LOG ♡</h2>
+
+    <div id="wishLog"></div>
+
+    <form class="wish-form" id="wishForm">
+      <label for="wishName">YOUR NAME</label>
+      <input id="wishName" type="text" placeholder="Cutie #1" maxlength="24" required>
+      <label for="wishText">YOUR WISH</label>
+      <textarea id="wishText" rows="3" placeholder="Type your birthday message..." maxlength="220" required></textarea>
+      <button type="submit" class="btn-pixel">SEND ♡</button>
+      <p id="wishStatus" class="wish-status"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p class="pixel-font">THANKS FOR VISITING ♡ COME BACK NEXT LEVEL</p>
+  <div class="walker-track" aria-hidden="true">
+    <svg class="walker" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      <rect x="5" y="1" width="6" height="5" fill="#FF6FB0"/>
+      <rect x="6" y="2" width="1" height="1" fill="#6B2E58"/>
+      <rect x="9" y="2" width="1" height="1" fill="#6B2E58"/>
+      <rect x="4" y="0" width="2" height="2" fill="#FF6FB0"/>
+      <rect x="10" y="0" width="2" height="2" fill="#FF6FB0"/>
+      <rect x="4" y="6" width="8" height="5" fill="#FFD1E8"/>
+      <rect x="3" y="11" width="3" height="3" fill="#C44B93"/>
+      <rect x="10" y="11" width="3" height="3" fill="#C44B93"/>
+    </svg>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Fallback wishes shown only if there's nothing saved yet (first ever visit,
+  // or the API isn't reachable e.g. opening this HTML file locally without deploying).
+  var fallbackWishes = [
+    {name:"John Martin Vidad", text:"Happy Birthday, Love. I hope you are doing great hehe :>"}
+  ];
+
+  var API_URL = '/api/wishes';
+  var LOCAL_KEY = 'birthdaySiteWishesFallback';
+
+  var wishLog = document.getElementById('wishLog');
+  var statusEl = document.getElementById('wishStatus');
+  var typeQueue = [];
+  var typing = false;
+  var apiAvailable = true; // flips to false if the API can't be reached
+
+  function buildDialogBox(name, text){
+    var box = document.createElement('div');
+    box.className = 'dialog-box';
+    var nameEl = document.createElement('p');
+    nameEl.className = 'dialog-name pixel-font';
+    nameEl.textContent = name.toUpperCase();
+    var textEl = document.createElement('p');
+    textEl.className = 'dialog-text';
+    var tail = document.createElement('div');
+    tail.className = 'tail';
+    box.appendChild(nameEl);
+    box.appendChild(textEl);
+    box.appendChild(tail);
+    return { box: box, textEl: textEl };
+  }
+
+  function typeInto(textEl, fullText, done){
+    var i = 0;
+    var cursor = document.createElement('span');
+    cursor.className = 'cursor-blink';
+    cursor.textContent = '\u00A0';
+    textEl.appendChild(cursor);
+
+    var interval = setInterval(function(){
+      if(i < fullText.length){
+        cursor.insertAdjacentText('beforebegin', fullText.charAt(i));
+        i++;
+      } else {
+        clearInterval(interval);
+        cursor.remove();
+        if(done) done();
+      }
+    }, 18);
+  }
+
+  function processQueue(){
+    if(typing || typeQueue.length === 0) return;
+    typing = true;
+    var item = typeQueue.shift();
+    var built = buildDialogBox(item.name, item.text);
+    wishLog.appendChild(built.box);
+    built.box.scrollIntoView({behavior:'smooth', block:'nearest'});
+    typeInto(built.textEl, item.text, function(){
+      typing = false;
+      processQueue();
+    });
+  }
+
+  function queueWish(name, text){
+    typeQueue.push({name:name, text:text});
+    processQueue();
+  }
+
+  function setStatus(message, isError){
+    if(!statusEl) return;
+    statusEl.textContent = message || '';
+    statusEl.style.color = isError ? '#C44B93' : '';
+  }
+
+  function getLocalWishes(){
+    try {
+      var raw = localStorage.getItem(LOCAL_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch(e){ return []; }
+  }
+
+  function saveLocalWish(wish){
+    try {
+      var list = getLocalWishes();
+      list.push(wish);
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+    } catch(e){ /* ignore (e.g. storage disabled) */ }
+  }
+
+  // ---------- load existing wishes on page load ----------
+  function loadWishes(){
+    fetch(API_URL)
+      .then(function(res){
+        if(!res.ok) throw new Error('API responded with ' + res.status);
+        return res.json();
+      })
+      .then(function(data){
+        var wishes = (data && data.wishes) || [];
+        if(wishes.length === 0){
+          fallbackWishes.forEach(function(w){ queueWish(w.name, w.text); });
+        } else {
+          wishes.forEach(function(w){ queueWish(w.name, w.text); });
+        }
+      })
+      .catch(function(){
+        // API not deployed / not configured yet — fall back to localStorage so
+        // wishes still persist on THIS browser, plus the starter messages.
+        apiAvailable = false;
+        setStatus('Saving to this browser only — connect a database to save for everyone (see README).', true);
+        fallbackWishes.forEach(function(w){ queueWish(w.name, w.text); });
+        getLocalWishes().forEach(function(w){ queueWish(w.name, w.text); });
+      });
+  }
+
+  loadWishes();
+
+  // ---------- form submit ----------
+  var form = document.getElementById('wishForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('wishName').value.trim() || 'Anonymous';
+    var text = document.getElementById('wishText').value.trim();
+    if(!text) return;
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+
+    if(apiAvailable){
+      fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, text: text })
+      })
+        .then(function(res){
+          if(!res.ok) throw new Error('Save failed');
+          return res.json();
+        })
+        .then(function(){
+          queueWish(name, text);
+          setStatus('Saved ♡');
+          form.reset();
+        })
+        .catch(function(){
+          apiAvailable = false;
+          setStatus('Could not save to the shared log — saving to this browser instead.', true);
+          saveLocalWish({name:name, text:text});
+          queueWish(name, text);
+          form.reset();
+        })
+        .finally(function(){ submitBtn.disabled = false; });
+    } else {
+      saveLocalWish({name:name, text:text});
+      queueWish(name, text);
+      form.reset();
+      submitBtn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

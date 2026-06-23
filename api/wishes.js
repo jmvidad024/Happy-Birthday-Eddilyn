@@ -1,16 +1,17 @@
 // api/wishes.js
 // Serverless function (runs on Vercel) that stores birthday wishes in
-// Upstash Redis so they persist across visits/devices.
+// Upstash Redis (via Vercel's KV/Marketplace integration) so they persist
+// across visits/devices.
 //
-// Requires two environment variables set in your Vercel project:
-//   UPSTASH_REDIS_REST_URL
-//   UPSTASH_REDIS_REST_TOKEN
-// (You get both for free from https://upstash.com after creating a Redis
-// database, or via Vercel's "Marketplace > Storage > Upstash" integration,
-// which sets them for you automatically.)
+// Vercel's KV/Upstash integration sets these env vars automatically when
+// you connect a database in the Storage tab:
+//   KV_REST_API_URL
+//   KV_REST_API_TOKEN
+// (Falls back to UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN too, in
+// case you connected Upstash directly instead of through Vercel KV.)
 
-const REDIS_URL = process.env.UPSTASH_REDIS_REST_URL;
-const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const WISH_KEY = 'birthday:wishes';
 const MAX_WISHES = 200; // keep the log from growing forever
 
@@ -51,7 +52,7 @@ module.exports = async (req, res) => {
   if (!REDIS_URL || !REDIS_TOKEN) {
     res.status(500).json({
       error:
-        'Storage is not configured yet. Add UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in your Vercel project settings (see README).',
+        'Storage is not configured yet. Connect a database in Vercel (Storage tab) so KV_REST_API_URL and KV_REST_API_TOKEN get set, then redeploy.',
     });
     return;
   }
